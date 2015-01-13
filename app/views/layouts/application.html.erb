@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= @pagetitle %></title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag    "learningrails","scaffold"%>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div id='pagewraper'>
+	<div id='header'>
+		<p>Learning Rails Sample Application</p>
+	</div>
+	<div id='navbar'>
+		<ul>
+			<% @tabs.each do |page| %>
+				<li <%= "id='current'" if @page && (@page == page || @page.parent == page) %>>
+					<% if page.redirect? %>
+  						<%= link_to page.navlabel, :action => page.action_name, :controller => page.controller_name, :name => page.name %>
+					<% else %>
+  						<%= link_to page.navlabel, view_page_path(page.name) %>
+					<% end %>
+				</li>
+			<% end -%>
+			<% if user_signed_in? %>
+  				Logged in as <strong><%= current_user.email %></strong>.
+  				<%= link_to 'Edit profile', edit_user_registration_path %> |
+  				<%= link_to "Logout", destroy_user_session_path, method: :delete %>
+			<% else %>
+				<%= link_to "Sign up", new_user_registration_path%> |
+				<%= link_to "Login", new_user_session_path%>
+			<% end %>
+		</ul>
+	</div>
+</div>
+<div id='content'>
+	<% if notice %>
+  		<p class="alert alert-success"><%= notice %></p>
+	<% end %>
+	<% if alert %>
+  		<p class="alert alert-danger"><%= alert %></p>
+	<% end %>
+	<%= yield %>
+</div>
+<div id='footer'>
+	<p>Learning Rails Sample Application</p>
+</div>
+
+</body>
+</html>
