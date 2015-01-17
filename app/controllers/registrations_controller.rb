@@ -4,5 +4,5 @@ class RegistrationsController < Devise::RegistrationsController
     def set_pagetitle
 		@pagetitle='Learning rails'
 	end 
-    
+
 end
